@@ -42,7 +42,14 @@ const columns = [
   },
 ];
 
-const socials = ['X', 'Instagram', 'TikTok', 'Telegram', 'Discord', 'YouTube'];
+const socials = [
+  { name: 'X', href: '' },
+  { name: 'Instagram', href: '' },
+  { name: 'TikTok', href: '' },
+  { name: 'Telegram', href: app.community.telegram },
+  { name: 'Discord', href: app.community.discord },
+  { name: 'YouTube', href: '' },
+];
 ---
 
 <footer id="roadmap" class="site-footer light-zone">
@@ -57,7 +64,13 @@ const socials = ['X', 'Instagram', 'TikTok', 'Telegram', 'Discord', 'YouTube'];
           Reproductor de música gratis con búsqueda, playlists y escucha sin conexión.
         </p>
         <div class="mt-5 flex flex-wrap gap-2" aria-label="Redes sociales (próximamente)">
-          {socials.map((social) => <span class="social-icon" title={`${social} · próximamente`}>{social.slice(0, 1)}</span>)}
+          {
+            socials.map((social) => social.href ? (
+              <a href={social.href} target="_blank" rel="noopener" class="social-icon" title={social.name} aria-label={social.name}>{social.name.slice(0, 1)}</a>
+            ) : (
+              <span class="social-icon" title={`${social.name} · próximamente`}>{social.name.slice(0, 1)}</span>
+            ))
+          }
         </div>
       </div>
 

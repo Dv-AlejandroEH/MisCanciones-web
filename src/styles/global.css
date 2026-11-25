@@ -637,6 +637,8 @@ body {
 .footer-link-muted { color: #aaa; cursor: default; }
 .footer-link-muted:hover { color: #aaa; }
 .social-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.12); font-size: 0.65rem; font-weight: 800; color: #777; }
+.social-icon[href] { color: var(--ink); border-color: rgba(0, 0, 0, 0.24); transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+.social-icon[href]:hover { background: var(--color-app-primary); border-color: var(--color-app-primary); color: #04150a; }
 
 /* Reveal */
 [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }

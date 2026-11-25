@@ -19,7 +19,7 @@ export const app = {
   proof: '100% gratis · sin suscripción',
   // Enlaces de comunidad. Déjalos vacíos para mostrar «Próximamente».
   community: {
-    discord: '',
+    discord: 'https://discord.gg/SHzgrYnshb',
     telegram: '',
     roadmap: '',
     support: '',
