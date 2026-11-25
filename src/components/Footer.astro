@@ -1,0 +1,91 @@
+---
+import { withBase, appHref } from '../utils/assets';
+import { app } from '../data/app';
+
+const columns = [
+  {
+    title: 'Producto',
+    en: 'Product',
+    links: [
+      { label: 'Características', en: 'Features', href: '#caracteristicas' },
+      { label: 'Cómo funciona', en: 'How it works', href: '#como-funciona' },
+      { label: 'Personalización', en: 'Personalization', href: '#personalizacion' },
+      { label: 'Descargar APK', en: 'Download APK', href: appHref(app.apkUrl) },
+    ],
+  },
+  {
+    title: 'Ayuda',
+    en: 'Help',
+    links: [
+      { label: 'Abrir app web', en: 'Open web app', href: app.webUrl },
+      { label: 'Comunidad', en: 'Community', href: '#comunidad' },
+      { label: `Versión ${app.version}`, en: `Version ${app.version}`, href: '#inicio' },
+    ],
+  },
+  {
+    title: 'Comunidad',
+    en: 'Community',
+    links: [
+      { label: 'Únete', en: 'Join', href: '#comunidad' },
+      { label: 'Hoja de ruta', en: 'Roadmap', href: '#roadmap' },
+      { label: 'Prueba la web', en: 'Try the web', href: app.webUrl },
+    ],
+  },
+  {
+    title: 'Legal',
+    en: 'Legal',
+    links: [
+      { label: 'Privacidad · próximamente', en: 'Privacy · soon', href: '' },
+      { label: 'Términos · próximamente', en: 'Terms · soon', href: '' },
+      { label: 'Hecho con Flutter', en: 'Made with Flutter', href: '#inicio' },
+    ],
+  },
+];
+
+const socials = ['X', 'Instagram', 'TikTok', 'Telegram', 'Discord', 'YouTube'];
+---
+
+<footer id="roadmap" class="site-footer light-zone">
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="grid gap-12 lg:grid-cols-[1.6fr_repeat(4,1fr)]">
+      <div>
+        <a href="#inicio" class="flex items-center gap-2.5">
+          <img src={withBase('logo.png')} alt="" class="h-10 w-10 rounded-xl" />
+          <span class="text-base font-extrabold tracking-[-0.03em] text-[#111]">{app.name}</span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-[#666]" data-en="Free music player with search, playlists and offline listening.">
+          Reproductor de música gratis con búsqueda, playlists y escucha sin conexión.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2" aria-label="Redes sociales (próximamente)">
+          {socials.map((social) => <span class="social-icon" title={`${social} · próximamente`}>{social.slice(0, 1)}</span>)}
+        </div>
+      </div>
+
+      {
+        columns.map((column) => (
+          <div>
+            <h3 class="footer-title" data-en={column.en}>{column.title}</h3>
+            <ul class="mt-4 space-y-3 text-sm text-[#666]">
+              {
+                column.links.map((link) => (
+                  <li>
+                    {link.href ? (
+                      <a href={link.href} class="footer-link" target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener' : undefined} data-en={link.en}>{link.label}</a>
+                    ) : (
+                      <span class="footer-link footer-link-muted" data-en={link.en}>{link.label}</span>
+                    )}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-14 flex flex-col gap-3 border-t border-black/10 pt-6 text-xs text-[#888] sm:flex-row sm:items-center sm:justify-between">
+      <p>© {new Date().getFullYear()} {app.name}. <span data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+      <p>dv-alejandroeh.github.io/MisCanciones</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,70 @@
+---
+import { withBase } from '../utils/assets';
+import PhoneFrame from './PhoneFrame.astro';
+
+const sources = [
+  { label: 'Búsqueda', en: 'Search', color: '#1ed760', x: '-40vw', y: '-24vh', r: '-10deg', art: withBase('art/UK.webp') },
+  { label: 'Álbumes', en: 'Albums', color: '#5656be', x: '38vw', y: '-28vh', r: '8deg', art: withBase('art/global.webp') },
+  { label: 'Playlists', en: 'Playlists', color: '#2a7fff', x: '-44vw', y: '20vh', r: '-7deg', art: withBase('art/mexico.webp') },
+  { label: 'Descargas', en: 'Downloads', color: '#f0a500', x: '42vw', y: '24vh', r: '9deg', art: withBase('art/spain.webp') },
+  { label: 'Favoritos', en: 'Favourites', color: '#ff6b6b', x: '-18vw', y: '34vh', r: '5deg', art: withBase('art/brasil.webp') },
+  { label: 'Artistas', en: 'Artists', color: '#8e5aff', x: '20vw', y: '-36vh', r: '-6deg', art: withBase('art/argentina.webp') },
+];
+---
+
+<section id="como-funciona" class="story-section" data-story>
+  <div class="story-stage">
+    <div class="story-halo" aria-hidden="true"></div>
+
+    <div class="story-heading" data-story-heading>
+      <h2 class="story-line story-line-a" data-story-line="a">
+        Tu música vive en <span class="pill-white">mil sitios</span>
+      </h2>
+      <h2 class="story-line story-line-b" data-story-line="b">
+        ¿Por qué no <span class="pill-white">juntarlas?</span>
+      </h2>
+    </div>
+
+    <div class="story-sources" aria-hidden="true">
+      {
+        sources.map((source) => (
+          <div
+            class="source-card"
+            style={`--sx:${source.x};--sy:${source.y};--sr:${source.r};--sc:${source.color}`}
+            data-source
+          >
+            <img src={source.art} alt="" />
+            <span data-en={source.en}>{source.label}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="story-phone" data-story-phone>
+      <PhoneFrame label="Mis Canciones reuniendo todas tus fuentes">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+        <p class="mt-5 text-[10px] text-white/50" data-en="Your library">Tu biblioteca</p>
+        <div class="mt-4 grid grid-cols-3 gap-2">
+          {sources.map((source) => <img src={source.art} alt="" class="aspect-square w-full rounded-lg object-cover" />)}
+        </div>
+        <div class="mt-4 flex gap-1.5 overflow-hidden">
+          {sources.map((source) => <span class="h-1.5 flex-1 rounded-full" style={`background:${source.color}`}></span>)}
+        </div>
+        <p class="mt-4 text-center text-[11px] font-extrabold text-white" data-en="All in one place">Todo en un solo lugar</p>
+      </PhoneFrame>
+    </div>
+
+    <div class="story-final" data-story-final>
+      <span class="section-kicker" data-en="One home for your music">Un hogar para tu música</span>
+      <h2 class="story-final-title" data-en="Every source, one app.">Todas tus fuentes,<br />en una sola app.</h2>
+      <p class="story-final-text" data-en="Search, save, organise and play without jumping between apps. Everything stays yours, and it stays free.">
+        Busca, guarda, organiza y reproduce sin saltar entre apps. Todo sigue siendo tuyo y sigue siendo gratis.
+      </p>
+      <p class="story-final-note" data-en="Available now on web and Android">Disponible ahora en web y Android</p>
+    </div>
+
+    <div class="story-steps" aria-hidden="true">
+      <i class="on"></i><i></i><i></i><i></i>
+    </div>
+  </div>
+</section>

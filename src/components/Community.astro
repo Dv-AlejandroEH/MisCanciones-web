@@ -1,0 +1,52 @@
+---
+import { app } from '../data/app';
+
+const links = [
+  { label: 'Únete al Discord', en: 'Join Discord', href: app.community.discord, kind: 'dark' },
+  { label: 'Únete a Telegram', en: 'Join Telegram', href: app.community.telegram, kind: 'light' },
+];
+---
+
+<section id="comunidad" class="community-section light-zone">
+  <div class="dot-matrix" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-5xl px-5 py-24 text-center sm:px-8">
+    <div data-reveal>
+      <span class="counter" data-counter data-count-to="100" data-suffix="%">0%</span>
+      <p class="counter-label" data-en="free. No trial, no card, no subscription.">gratis. Sin prueba, sin tarjeta, sin suscripción.</p>
+    </div>
+
+    <div class="mx-auto mt-24 max-w-2xl" data-reveal>
+      <span class="section-kicker section-kicker-light" data-en="Built with you">Construida contigo</span>
+      <h2 class="community-title" data-en="Join the community">Únete a la comunidad</h2>
+      <p class="community-lead" data-en="Share ideas, try early builds and help decide what comes next.">Comparte ideas, prueba versiones anticipadas y ayuda a decidir qué viene después.</p>
+
+      <div class="community-actions">
+        {
+          links.map((link) => link.href ? (
+            <a href={link.href} target="_blank" rel="noopener" class:list={['community-pill', link.kind === 'dark' ? 'community-pill-dark' : 'community-pill-light']} data-en={link.en}>{link.label}</a>
+          ) : (
+            <span class="community-pill community-pill-soon" aria-disabled="true">{link.label} · <span data-en="soon">próximamente</span></span>
+          ))
+        }
+      </div>
+
+      <div class="community-links">
+        {
+          app.community.roadmap ? (
+            <a href={app.community.roadmap} target="_blank" rel="noopener" data-en="Roadmap ›">Hoja de ruta ›</a>
+          ) : (
+            <a href="#roadmap" data-en="Roadmap ›">Hoja de ruta ›</a>
+          )
+        }
+        {
+          app.community.support ? (
+            <a href={app.community.support} target="_blank" rel="noopener" data-en="Support us ›">Apóyanos ›</a>
+          ) : (
+            <a href={app.webUrl} target="_blank" rel="noopener" data-en="Try the web app ›">Prueba la app web ›</a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

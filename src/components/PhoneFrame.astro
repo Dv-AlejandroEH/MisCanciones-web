@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+  label?: string;
+  screenClass?: string;
+}
+
+const {
+  class: className = '',
+  label = 'Vista de la aplicación',
+  screenClass = 'phone-screen-dark',
+} = Astro.props;
+---
+
+<div class:list={['phone-frame', className]} role="img" aria-label={label}>
+  <div class="phone-notch" aria-hidden="true"></div>
+  <div class:list={['phone-frame__screen', screenClass]}>
+    <slot />
+  </div>
+</div>

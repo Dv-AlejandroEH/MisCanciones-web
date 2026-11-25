@@ -1,0 +1,111 @@
+---
+import { withBase, appHref } from '../utils/assets';
+import { app } from '../data/app';
+import PhoneFrame from './PhoneFrame.astro';
+
+const recent = [
+  { title: 'Global Hits', artist: 'Mis Canciones', art: withBase('art/global.webp') },
+  { title: 'España Top', artist: 'Playlist', art: withBase('art/spain.webp') },
+  { title: 'México Mix', artist: 'Playlist', art: withBase('art/mexico.webp') },
+];
+---
+
+<section id="inicio" class="hero-section" data-hero>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-copy" data-hero-copy>
+    <span class="pill-white hero-eyebrow">v{app.version} · Web + Android</span>
+
+    <h1 class="hero-title">
+      <span>Tu música,</span>
+      <span class="text-app-primary-bright" data-en="without limits.">sin límites.</span>
+    </h1>
+
+    <p class="hero-subtitle" data-en="Search, organize and listen to your music without paying or subscribing.">
+      Busca, organiza y escucha tu música sin pagar ni suscribirte.
+    </p>
+
+    <div class="download-row">
+      <a href={appHref(app.apkUrl)} download="MisCanciones.apk" class="store-pill">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3" /></svg>
+        <span><strong data-en="Download APK">Descargar APK</strong><small>Android · directo</small></span>
+      </a>
+      <a href={app.webUrl} target="_blank" rel="noopener" class="store-pill">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></svg>
+        <span><strong data-en="Open web app">Abrir app web</strong><small>Sin instalar</small></span>
+      </a>
+    </div>
+
+    <div class="social-proof">
+      <div class="avatar-stack" aria-hidden="true">
+        <img src={withBase('art/global.webp')} alt="" />
+        <img src={withBase('art/spain.webp')} alt="" />
+        <img src={withBase('art/mexico.webp')} alt="" />
+        <img src={withBase('art/argentina.webp')} alt="" />
+      </div>
+      <p><strong>100% gratis</strong> · {app.platforms.join(' + ')} · <span data-en="no subscription">sin suscripción</span></p>
+    </div>
+  </div>
+
+  <div class="hero-phones" aria-label="Pantallas de la aplicación">
+    <PhoneFrame class="hero-phone hero-phone-left" label="Pantalla de búsqueda de Mis Canciones">
+      <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+      <p class="mt-5 text-[11px] text-white/50" data-en="Search">Buscar</p>
+      <div class="mt-2 flex items-center gap-2 rounded-full border border-app-primary/50 bg-white/5 px-3 py-2">
+        <span class="text-app-primary-bright">⌕</span>
+        <span class="text-[10px] text-white/70" data-en="songs, artists...">canciones, artistas...</span>
+      </div>
+      <div class="mt-4 space-y-3">
+        {
+          recent.map((item) => (
+            <div class="flex items-center gap-2.5">
+              <img src={item.art} alt="" class="h-9 w-9 rounded-lg object-cover" />
+              <span class="min-w-0 flex-1">
+                <span class="block truncate text-[11px] font-semibold text-white">{item.title}</span>
+                <span class="block truncate text-[9px] text-white/45">{item.artist}</span>
+              </span>
+            </div>
+          ))
+        }
+      </div>
+      <div class="phone-tabbar"><span class="text-app-primary-bright">Inicio</span><span>Buscar</span><span>Biblioteca</span><span>Crear</span></div>
+    </PhoneFrame>
+
+    <PhoneFrame class="hero-phone hero-phone-center" label="Reproductor de Mis Canciones">
+      <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+      <p class="mt-5 text-center text-[10px] text-white/50" data-en="Now playing">Reproduciendo ahora</p>
+      <img src={withBase('art/global.webp')} alt="" class="mx-auto mt-4 aspect-square w-[78%] rounded-2xl object-cover shadow-2xl" />
+      <p class="mt-4 text-center text-sm font-extrabold text-white" data-en="Global Hits">Global Hits</p>
+      <p class="text-center text-[10px] text-white/50" data-en="Mis Canciones">Mis Canciones</p>
+      <div class="mx-auto mt-4 h-1 w-4/5 rounded-full bg-white/15"><div class="h-1 w-[38%] rounded-full bg-app-primary-bright"></div></div>
+      <div class="mx-auto mt-1.5 flex w-4/5 justify-between text-[9px] text-white/45"><span>1:24</span><span>3:42</span></div>
+      <div class="mt-4 flex items-center justify-center gap-5 text-white">
+        <span class="text-white/50">⤨</span><span>◀◀</span>
+        <span class="grid h-11 w-11 place-items-center rounded-full bg-app-primary-bright text-base text-black">▶</span>
+        <span>▶▶</span><span class="text-white/50">♥</span>
+      </div>
+    </PhoneFrame>
+
+    <PhoneFrame class="hero-phone hero-phone-right" label="Biblioteca de Mis Canciones">
+      <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+      <p class="mt-5 text-base font-extrabold tracking-[-0.03em] text-white" data-en="Your library">Tu biblioteca</p>
+      <div class="mt-3 flex gap-1.5">
+        <span class="rounded-full bg-app-primary px-2.5 py-1 text-[9px] font-bold text-black" data-en="All">Todo</span>
+        <span class="rounded-full bg-white/10 px-2.5 py-1 text-[9px] text-white/60" data-en="Playlists">Playlists</span>
+        <span class="rounded-full bg-white/10 px-2.5 py-1 text-[9px] text-white/60" data-en="Albums">Álbumes</span>
+      </div>
+      <div class="mt-4 space-y-2.5">
+        {
+          [[withBase('art/brasil.webp'), 'Brasil Mix'], [withBase('art/UK.webp'), 'UK Charts'], [withBase('art/argentina.webp'), 'Argentina Top']].map(([art, title]) => (
+            <div class="flex items-center gap-2.5 rounded-xl bg-white/[0.04] p-1.5">
+              <img src={art} alt="" class="h-9 w-9 rounded-lg object-cover" />
+              <span class="min-w-0 flex-1 truncate text-[11px] font-semibold text-white">{title}</span>
+              <span class="text-app-primary-bright">▸</span>
+            </div>
+          ))
+        }
+      </div>
+      <div class="phone-tabbar"><span>Inicio</span><span>Buscar</span><span class="text-app-primary-bright">Biblioteca</span><span>Crear</span></div>
+    </PhoneFrame>
+  </div>
+</section>

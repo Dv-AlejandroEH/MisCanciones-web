@@ -1,0 +1,78 @@
+---
+import { withBase, appHref } from '../utils/assets';
+import { app } from '../data/app';
+import PhoneFrame from './PhoneFrame.astro';
+
+const steps = [
+  { n: '01', title: 'Busca', en: 'Search', text: 'Encuentra una canción, un artista o un álbum en segundos.', textEn: 'Find a song, artist or album in seconds.' },
+  { n: '02', title: 'Organiza', en: 'Organise', text: 'Guárdalo en tus favoritos o crea una playlist propia.', textEn: 'Save it to favourites or build your own playlist.' },
+  { n: '03', title: 'Escucha', en: 'Listen', text: 'Descárgalo y sigue escuchando aunque no tengas internet.', textEn: 'Download it and keep listening without internet.' },
+];
+---
+
+<section id="personalizacion" class="demo-section light-zone" data-demo>
+  <div class="mx-auto grid max-w-7xl items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:gap-20">
+    <div>
+      <span class="section-kicker section-kicker-light" data-en="Step by step">Paso a paso</span>
+      <h2 class="demo-title" data-en="Made for your music, made to be free.">Hecha para tu música,<br /><span class="pill-accent">hecha para ser gratis.</span></h2>
+      <p class="demo-lead" data-en="Three moves and you are in. No setup, no account walls, no payment.">Tres movimientos y estás dentro. Sin configuración, sin muros de registro y sin pago.</p>
+
+      <div class="demo-steps" role="group" aria-label="Pasos de la app">
+        {
+          steps.map((step, index) => (
+            <button type="button" class:list={['demo-step', index === 0 && 'active']} data-demo-step={index} aria-pressed={index === 0 ? 'true' : 'false'}>
+              <span class="demo-step-n">{step.n}</span>
+              <span>
+                <strong data-en={step.en}>{step.title}</strong>
+                <small data-en={step.textEn}>{step.text}</small>
+              </span>
+            </button>
+          ))
+        }
+      </div>
+
+      <a href={appHref(app.apkUrl)} download="MisCanciones.apk" class="cta-dark mt-8" data-en="Start for free">Empieza gratis →</a>
+    </div>
+
+    <div class="demo-phone-wrap">
+      <div class="demo-phone-glow" aria-hidden="true"></div>
+      <PhoneFrame label="Demo interactiva de Mis Canciones" screenClass="phone-screen-light">
+        <div class="phone-status phone-status-light"><span>9:41</span><span>▮▮▮</span></div>
+
+        <div data-demo-screen="0">
+          <p class="demo-screen-kicker" data-en="Search">Buscar</p>
+          <div class="demo-search"><span>⌕</span><span data-en="midnight drive">midnight drive</span></div>
+          <div class="mt-4 space-y-2.5">
+            <div class="flex items-center gap-2.5"><img src={withBase('art/UK.webp')} alt="" class="h-10 w-10 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Midnight Drive</span><span class="ml-auto text-app-primary">♥</span></div>
+            <div class="flex items-center gap-2.5"><img src={withBase('art/global.webp')} alt="" class="h-10 w-10 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Neon Waves</span><span class="ml-auto text-app-primary">♥</span></div>
+          </div>
+        </div>
+
+        <div data-demo-screen="1" hidden>
+          <p class="demo-screen-kicker" data-en="Organise">Organizar</p>
+          <p class="mt-2 text-lg font-extrabold tracking-[-0.04em] text-[#111]" data-en="Your playlists">Tus playlists</p>
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center gap-2.5 rounded-xl bg-[#f4f4f4] p-2"><img src={withBase('art/spain.webp')} alt="" class="h-9 w-9 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Favoritas</span><span class="ml-auto text-[9px] text-[#888]">24</span></div>
+            <div class="flex items-center gap-2.5 rounded-xl bg-[#f4f4f4] p-2"><img src={withBase('art/mexico.webp')} alt="" class="h-9 w-9 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Top mixes</span><span class="ml-auto text-[9px] text-[#888]">12</span></div>
+            <div class="flex items-center gap-2.5 rounded-xl bg-app-primary/15 p-2"><span class="grid h-9 w-9 place-items-center rounded-lg bg-app-primary text-sm text-black">+</span><span class="text-[11px] font-semibold text-[#111]" data-en="New playlist">Nueva playlist</span></div>
+          </div>
+        </div>
+
+        <div data-demo-screen="2" hidden>
+          <p class="demo-screen-kicker" data-en="Offline">Sin conexión</p>
+          <p class="mt-2 text-lg font-extrabold tracking-[-0.04em] text-[#111]" data-en="Ready to go">Listas para salir</p>
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center gap-2.5 rounded-xl bg-[#f4f4f4] p-2"><img src={withBase('art/brasil.webp')} alt="" class="h-9 w-9 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Brasil Mix</span><span class="ml-auto text-app-primary">↓</span></div>
+            <div class="flex items-center gap-2.5 rounded-xl bg-[#f4f4f4] p-2"><img src={withBase('art/argentina.webp')} alt="" class="h-9 w-9 rounded-lg object-cover" /><span class="text-[11px] font-semibold text-[#111]">Argentina Top</span><span class="ml-auto text-app-primary">↓</span></div>
+          </div>
+          <div class="mt-5 flex items-center justify-center gap-2 rounded-full bg-[#111] px-4 py-2 text-[10px] font-bold text-white"><span>◀◀</span><span class="grid h-7 w-7 place-items-center rounded-full bg-app-primary text-black">▶</span><span>▶▶</span></div>
+        </div>
+
+        <div class="demo-toast" data-demo-toast>
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-app-primary text-[10px] text-black">✓</span>
+          <span data-en="Change applied">Cambio aplicado</span>
+        </div>
+      </PhoneFrame>
+    </div>
+  </div>
+</section>

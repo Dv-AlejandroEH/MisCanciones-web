@@ -1,0 +1,105 @@
+---
+import { withBase } from '../utils/assets';
+import PhoneFrame from './PhoneFrame.astro';
+---
+
+<section id="caracteristicas" class="bento-section">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="max-w-3xl" data-reveal>
+      <span class="section-kicker" data-en="Everything you love, inside the app">Todo lo que te encanta, dentro de la app</span>
+      <h2 class="section-title-dark" data-en="One app. Every song.">Una app.<br />Todas tus canciones.</h2>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Fila 1 -->
+      <article class="bento-card bento-lg" data-reveal>
+        <span class="bento-arrow" aria-hidden="true">↗</span>
+        <span class="bento-kicker" data-en="Search">Búsqueda</span>
+        <h3 class="bento-title" data-en="Find it in seconds">Encuentra en segundos</h3>
+        <p class="bento-text" data-en="Songs, artists, albums and podcasts. Typos included.">Canciones, artistas, álbumes y podcasts. También con errores tipográficos.</p>
+        <PhoneFrame class="bento-phone bento-phone-left" label="Búsqueda en Mis Canciones">
+          <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+          <div class="mt-5 rounded-full border border-app-primary/50 bg-white/5 px-3 py-2 text-[10px] text-white/70">midnight drive</div>
+          <div class="mt-4 space-y-2.5">
+            <div class="flex items-center gap-2"><img src={withBase('art/UK.webp')} alt="" class="h-8 w-8 rounded object-cover" /><span class="text-[10px] text-white">Midnight Drive</span></div>
+            <div class="flex items-center gap-2"><img src={withBase('art/global.webp')} alt="" class="h-8 w-8 rounded object-cover" /><span class="text-[10px] text-white">Neon Waves</span></div>
+          </div>
+        </PhoneFrame>
+      </article>
+
+      <article class="bento-card bento-lg" data-reveal>
+        <span class="bento-arrow" aria-hidden="true">↗</span>
+        <span class="bento-kicker" data-en="Playlists">Playlists</span>
+        <h3 class="bento-title" data-en="Order it your way">Ordénalo a tu manera</h3>
+        <p class="bento-text" data-en="Create lists, save favourites and shape your library.">Crea listas, guarda favoritos y da forma a tu biblioteca.</p>
+        <span class="float-pill float-pill-a">+ Favoritos</span>
+        <span class="float-pill float-pill-b">✓ Guardado</span>
+        <span class="float-pill float-pill-c">Nueva playlist</span>
+        <PhoneFrame class="bento-phone bento-phone-right" label="Playlists de Mis Canciones">
+          <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+          <p class="mt-5 text-sm font-extrabold text-white" data-en="Created by you">Creadas por ti</p>
+          <div class="mt-3 space-y-2">
+            <div class="flex items-center gap-2 rounded-lg bg-white/5 p-2"><img src={withBase('art/spain.webp')} alt="" class="h-8 w-8 rounded object-cover" /><span class="text-[10px] text-white">Favoritas</span></div>
+            <div class="flex items-center gap-2 rounded-lg bg-white/5 p-2"><img src={withBase('art/mexico.webp')} alt="" class="h-8 w-8 rounded object-cover" /><span class="text-[10px] text-white">Top mixes</span></div>
+          </div>
+        </PhoneFrame>
+      </article>
+
+      <!-- Fila 2 -->
+      <article class="bento-card bento-live" data-reveal>
+        <span class="bento-kicker" data-en="Live library">Biblioteca viva</span>
+        <p class="live-type">SIEMPRE<br />CONTIGO</p>
+        <span class="bento-foot" data-en="Your music updates as you listen">Tu música se actualiza mientras escuchas</span>
+      </article>
+
+      <article class="bento-card bento-social" data-reveal>
+        <span class="bento-kicker" data-en="Made with you">Contigo</span>
+        <div class="social-orbit" aria-hidden="true">
+          <span class="orbit-ring"></span><span class="orbit-ring orbit-ring-2"></span>
+          <img src={withBase('art/global.webp')} alt="" /><img src={withBase('art/brasil.webp')} alt="" /><img src={withBase('art/UK.webp')} alt="" />
+        </div>
+        <span class="active-pill"><i></i><span data-en="Active now">Activo ahora</span></span>
+      </article>
+
+      <article class="bento-card bento-controls" data-reveal>
+        <span class="bento-kicker" data-en="Playback">Reproducción</span>
+        <PhoneFrame class="bento-phone bento-phone-tilt" label="Controles del reproductor">
+          <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+          <div class="mx-auto mt-6 grid h-24 w-24 place-items-center rounded-2xl bg-gradient-to-br from-app-primary via-[#5656be] to-[#ff6b6b] text-3xl text-black">♪</div>
+          <div class="mt-4 flex items-center justify-center gap-3 text-white"><span>◀◀</span><span class="grid h-9 w-9 place-items-center rounded-full bg-app-primary-bright text-black">▶</span><span>▶▶</span></div>
+        </PhoneFrame>
+      </article>
+
+      <!-- Fila 3 -->
+      <article class="bento-card bento-mosaic" data-reveal>
+        <span class="bento-kicker" data-en="Every mood">Cada momento</span>
+        <div class="mosaic">
+          <span class="mosaic-item mosaic-orange" data-en="Rock">Rock</span>
+          <span class="mosaic-item mosaic-purple" data-en="Chill">Chill</span>
+          <span class="mosaic-item mosaic-green" data-en="Pop">Pop</span>
+          <span class="mosaic-item mosaic-yellow" data-en="Top">Top</span>
+          <span class="mosaic-item mosaic-blue" data-en="Latin">Latín</span>
+          <span class="mosaic-item mosaic-pink" data-en="Podcast">Podcast</span>
+        </div>
+      </article>
+
+      <article class="bento-card bento-stories" data-reveal>
+        <span class="bento-kicker" data-en="Your year in music">Tu año en música</span>
+        <PhoneFrame class="bento-phone bento-phone-stories" label="Resumen de escucha">
+          <div class="phone-status"><span>9:41</span><span>▮▮▮</span></div>
+          <p class="mt-5 text-[10px] uppercase tracking-widest text-app-primary-bright" data-en="Monthly recap">Resumen mensual</p>
+          <div class="mt-3 grid grid-cols-7 gap-1">
+            {Array.from({ length: 21 }, (_, i) => <span class="repeat-cell" style={`--cell-op:${0.25 + ((i * 37) % 70) / 100}`}></span>)}
+          </div>
+          <p class="mt-4 text-2xl font-extrabold tracking-[-0.04em] text-white">142 h</p>
+          <p class="text-[10px] text-white/50" data-en="listened this month">escuchadas este mes</p>
+          <div class="mt-4 flex gap-2">
+            <img src={withBase('art/argentina.webp')} alt="" class="h-10 w-10 rounded-lg object-cover" />
+            <img src={withBase('art/brasil.webp')} alt="" class="h-10 w-10 rounded-lg object-cover" />
+            <img src={withBase('art/spain.webp')} alt="" class="h-10 w-10 rounded-lg object-cover" />
+          </div>
+        </PhoneFrame>
+      </article>
+    </div>
+  </div>
+</section>

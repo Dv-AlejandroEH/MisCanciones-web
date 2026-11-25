@@ -1,0 +1,18 @@
+---
+import { withBase, appHref } from '../utils/assets';
+import { app } from '../data/app';
+---
+
+<div class="app-dock" data-dock aria-hidden="true">
+  <img src={withBase('logo.png')} alt="" class="h-9 w-9 rounded-xl" />
+  <span class="min-w-0">
+    <span class="block truncate text-[13px] font-extrabold text-white">{app.name}</span>
+    <span class="block truncate text-[11px] text-white/55" data-en="Your music, free your way">{app.tagline}</span>
+  </span>
+  <a
+    href={appHref(app.apkUrl)}
+    download="MisCanciones.apk"
+    class="shrink-0 rounded-full bg-app-primary-bright px-4 py-2 text-xs font-extrabold text-black transition hover:bg-white"
+    data-en="Get the APK"
+  >Descargar APK</a>
+</div>
