@@ -40,8 +40,11 @@ const links = [
         href={appHref(app.apkUrl)}
         download="MisCanciones.apk"
         class="cta-pill hidden sm:inline-flex"
-        data-en="Download APK"
-      >Descargar APK</a>
+        data-smart-download
+      >
+        <span data-smart-icon aria-hidden="true">↓</span>
+        <span data-smart-label data-en="Download APK" data-es="Descargar APK">Descargar APK</span>
+      </a>
 
       <button
         type="button"
@@ -62,6 +65,8 @@ const links = [
         <a href={link.href} data-en={link.en}>{link.label}</a>
       ))
     }
-    <a href={appHref(app.apkUrl)} download="MisCanciones.apk" data-en="Download APK">Descargar APK</a>
+    <a href={appHref(app.apkUrl)} download="MisCanciones.apk" data-smart-download>
+      <span data-smart-label data-en="Download APK" data-es="Descargar APK">Descargar APK</span>
+    </a>
   </div>
 </header>

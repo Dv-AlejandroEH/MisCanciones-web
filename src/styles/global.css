@@ -658,6 +658,47 @@ body {
 }
 .download-body { padding: 0.85rem; }
 
+.smart-icon { display: inline-grid; place-items: center; font-size: 1.15rem; line-height: 1; }
+.store-pill .smart-icon { color: var(--color-app-primary-bright); }
+.cta-pill .smart-icon { margin-right: 0.1rem; font-size: 1rem; }
+
+.download-recommend-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  padding: 0.35rem 0.35rem 0;
+}
+.download-recommend-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.download-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.download-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.download-chip:hover { border-color: rgba(30, 215, 96, 0.5); color: #fff; }
+.download-chip.is-active {
+  border-color: rgba(30, 215, 96, 0.55);
+  background: rgba(30, 215, 96, 0.14);
+  color: var(--color-app-primary-bright);
+}
+.download-chip-icon svg { width: 14px; height: 14px; }
+
 .download-feature {
   position: relative;
   display: grid;
@@ -867,7 +908,7 @@ body {
   border-color: rgba(30, 215, 96, 0.35);
   background: rgba(30, 215, 96, 0.05);
 }
-.download-card-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.download-card-head { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
 .download-card-icon {
   width: 38px;
   height: 38px;
@@ -885,6 +926,23 @@ body {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
 }
+.download-card-recommended {
+  display: none;
+  border-radius: 999px;
+  background: var(--color-app-primary-bright);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #04150a;
+}
+.download-card.is-recommended {
+  border-color: rgba(30, 215, 96, 0.55);
+  background: rgba(30, 215, 96, 0.07);
+  box-shadow: 0 18px 45px -30px rgba(30, 215, 96, 0.8);
+}
+.download-card.is-recommended .download-card-recommended { display: inline-block; }
+.download-card.is-recommended .download-card-badge { display: none; }
 .download-card h3 { margin-top: 1rem; font-size: 1rem; font-weight: 800; }
 .download-card p { margin-top: 0.35rem; font-size: 0.75rem; line-height: 1.55; color: rgba(255, 255, 255, 0.5); }
 .download-card-file {
@@ -1105,6 +1163,9 @@ body {
   .download-tab { padding: 0.5rem 0.75rem; font-size: 0.76rem; }
   .download-detected { width: 100%; margin: 0.2rem 0 0 0.4rem; }
   .download-body { padding: 0.55rem; }
+  .download-recommend-row { padding: 0.35rem; }
+  .download-recommend-title { width: 100%; }
+  .download-chip { padding: 0.35rem 0.6rem; font-size: 0.68rem; }
   .download-feature { padding: 1.3rem; }
   .download-feature-art { display: none; }
   .download-checks { flex-direction: column; gap: 0.45rem; }

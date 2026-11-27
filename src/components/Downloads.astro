@@ -1,87 +1,25 @@
 ---
 import { app, downloads } from '../data/app';
+import { downloadOptions, type DownloadId } from '../data/downloads';
 
 const apkName = 'MisCanciones-1.0.0-android.apk';
-const appImageName = 'MisCanciones-1.0.0-linux-x86_64.AppImage';
-const appImageCommand = `chmod +x ${appImageName} && ./${appImageName} --appimage-extract-and-run`;
+const appImageOption = downloadOptions.find((option) => option.id === 'appimage')!;
+const appImageCommand = appImageOption.command ?? '';
+
+const linuxBadges: Partial<Record<DownloadId, string>> = {
+  deb: 'apt',
+  rpm: 'dnf',
+  snap: 'snapd',
+  portable: '',
+  all: 'todo en uno',
+};
+const linuxCards = downloadOptions.filter((option) => option.group === 'linux');
+const recommendChips = linuxCards;
 
 const tabs = [
   { id: 'android', label: 'Android', en: 'Android', icon: 'android' },
   { id: 'linux', label: 'Linux', en: 'Linux', icon: 'linux' },
   { id: 'web', label: 'Web', en: 'Web', icon: 'web' },
-] as const;
-
-const linuxCards = [
-  {
-    id: 'deb',
-    title: 'Debian / Ubuntu',
-    enTitle: 'Debian / Ubuntu',
-    description: 'Instalador nativo para apt.',
-    enDescription: 'Native installer for apt.',
-    format: '.deb',
-    size: '77 MB',
-    file: 'MisCanciones-1.0.0-linux-amd64.deb',
-    href: downloads.files.deb,
-    command: 'sudo apt install ./MisCanciones-1.0.0-linux-amd64.deb',
-    icon: 'deb',
-    badge: 'apt',
-  },
-  {
-    id: 'rpm',
-    title: 'Fedora / RPM',
-    enTitle: 'Fedora / RPM',
-    description: 'Paquete para dnf y RPM.',
-    enDescription: 'Package for dnf and RPM.',
-    format: '.rpm',
-    size: '77 MB',
-    file: 'MisCanciones-1.0.0-linux-x86_64.rpm',
-    href: downloads.files.rpm,
-    command: 'sudo dnf install ./MisCanciones-1.0.0-linux-x86_64.rpm',
-    icon: 'rpm',
-    badge: 'dnf',
-  },
-  {
-    id: 'snap',
-    title: 'Snap',
-    enTitle: 'Snap',
-    description: 'Instalación aislada con Snap.',
-    enDescription: 'Sandboxed install with Snap.',
-    format: '.snap',
-    size: '78 MB',
-    file: 'MisCanciones-1.0.0-linux-amd64.snap',
-    href: downloads.files.snap,
-    command: 'sudo snap install ./MisCanciones-1.0.0-linux-amd64.snap --dangerous',
-    icon: 'snap',
-    badge: 'snapd',
-  },
-  {
-    id: 'portable',
-    title: 'Portable',
-    enTitle: 'Portable',
-    description: 'Sin instalar: extrae y abre.',
-    enDescription: 'No install: extract and open.',
-    format: '.tar.gz',
-    size: '80 MB',
-    file: 'MisCanciones-1.0.0-linux-portable.tar.gz',
-    href: downloads.files.portable,
-    command: 'tar -xzf MisCanciones-1.0.0-linux-portable.tar.gz && cd miscanciones-1.0.0-portable && ./install.sh',
-    icon: 'archive',
-    badge: '',
-  },
-  {
-    id: 'all',
-    title: 'Paquete completo',
-    enTitle: 'Full bundle',
-    description: 'Todos los formatos Linux + SHA256SUMS.',
-    enDescription: 'Every Linux format + SHA256SUMS.',
-    format: '.tar.gz',
-    size: '390 MB',
-    file: 'MisCanciones-1.0.0-linux-all.tar.gz',
-    href: downloads.files.all,
-    command: 'tar -xzf MisCanciones-1.0.0-linux-all.tar.gz',
-    icon: 'bundle',
-    badge: 'todo en uno',
-  },
 ] as const;
 
 const icons: Record<string, string> = {
@@ -201,22 +139,34 @@ const copyIcon =
           role="tabpanel"
           hidden
         >
+          <div class="download-recommend-row">
+            <span class="download-recommend-title" data-en="Choose your system">Elige tu sistema</span>
+            <div class="download-chips" role="group" aria-label="Sistema / System">
+              {
+                recommendChips.map((chip) => (
+                  <button type="button" class="download-chip" data-recommend={chip.id} aria-pressed="false">
+                    <span class="download-chip-icon" set:html={icons[chip.icon]}></span>
+                    <span data-en={chip.chipEn}>{chip.chipEs}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+
           <article class="download-feature download-feature-linux">
             <div class="download-feature-copy">
-              <span class="download-feature-badge" data-en="Recommended for Linux">Recomendado en Linux</span>
-              <h3 data-en="AppImage: one file, any distro">AppImage: un archivo, cualquier distro</h3>
-              <p data-en="No root permissions and no libfuse2 needed: extract and run. Prefer a native package? Choose one below.">
-                Sin permisos de root y sin necesidad de libfuse2: extrae y ejecuta. ¿Prefieres un paquete nativo? Elige uno abajo.
-              </p>
+              <span class="download-feature-badge" data-en="Recommended for your Linux distro">Recomendado para tu distro Linux</span>
+              <h3 data-feature-title data-en={appImageOption.featureTitleEn} data-es={appImageOption.featureTitleEs}>{appImageOption.featureTitleEs}</h3>
+              <p data-feature-text data-en={appImageOption.featureTextEn} data-es={appImageOption.featureTextEs}>{appImageOption.featureTextEs}</p>
               <div class="download-actions">
-                <a href={downloads.files.appimage} download class="cta-pill download-primary">
-                  <span aria-hidden="true">↓</span><span data-en="Download AppImage · 80 MB">Descargar AppImage · 80 MB</span>
+                <a href={downloads.files.appimage} download class="cta-pill download-primary" data-feature-download>
+                  <span aria-hidden="true">↓</span><span data-smart-label data-en={appImageOption.labelEn} data-es={appImageOption.labelEs}>{appImageOption.labelEs}</span>
                 </a>
-                <button type="button" class="download-secondary copy-button" data-copy={appImageCommand} data-copy-es="¡Copiado!" data-copy-en="Copied!">
+                <button type="button" class="download-secondary copy-button" data-feature-copy data-copy={appImageCommand} data-copy-es="¡Copiado!" data-copy-en="Copied!">
                   <span class="copy-icon" set:html={copyIcon} /><span data-copy-label data-en="Copy command">Copiar comando</span>
                 </button>
               </div>
-              <code class="download-feature-command">{appImageCommand}</code>
+              <code class="download-feature-command" data-feature-command>{appImageCommand}</code>
             </div>
             <div class="download-feature-art download-art-linux" aria-hidden="true">
               <div class="download-art-orbit"></div>
@@ -228,19 +178,20 @@ const copyIcon =
           <div class="download-section-label">
             <span data-en="Or pick your package manager">O elige tu gestor de paquetes</span>
             <span class="download-section-line" aria-hidden="true"></span>
-            <span class="download-section-count">5 <span data-en="formats">formatos</span></span>
+            <span class="download-section-count">{linuxCards.length} <span data-en="formats">formatos</span></span>
           </div>
 
           <div class="download-grid">
             {
               linuxCards.map((card) => (
-                <article class="download-card">
+                <article class="download-card" data-download-card={card.id}>
                   <div class="download-card-head">
                     <span class="download-card-icon" set:html={icons[card.icon]} />
-                    {card.badge && <span class="download-card-badge">{card.badge}</span>}
+                    <span class="download-card-recommended" data-recommended-badge data-es="Recomendado" data-en="Recommended">Recomendado</span>
+                    {linuxBadges[card.id] && <span class="download-card-badge">{linuxBadges[card.id]}</span>}
                   </div>
-                  <h3 data-en={card.enTitle}>{card.title}</h3>
-                  <p data-en={card.enDescription}>{card.description}</p>
+                  <h3 data-en={card.titleEn}>{card.titleEs}</h3>
+                  <p data-en={card.descriptionEn}>{card.descriptionEs}</p>
                   <span class="download-card-file">{card.file}</span>
                   <div class="download-card-meta">
                     <span class="download-card-format">{card.format}</span>
@@ -253,10 +204,10 @@ const copyIcon =
                     <button
                       type="button"
                       class="copy-button copy-button-icon"
-                      data-copy={card.command}
+                      data-copy={card.command ?? ''}
                       data-copy-es="¡Copiado!"
                       data-copy-en="Copied!"
-                      aria-label={`Copiar comando ${card.title}`}
+                      aria-label={`Copiar comando ${card.titleEs}`}
                     >
                       <span class="copy-icon" set:html={copyIcon} />
                     </button>

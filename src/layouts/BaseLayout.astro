@@ -72,6 +72,9 @@ const siteName = app.name;
     <slot />
 
     <script>
+      import { downloadOptions, findDownload, type DownloadId } from '../data/downloads';
+      import { detectEnvironment } from '../utils/platform';
+
       const root = document.documentElement;
       const clamp = (value: number) => Math.min(1, Math.max(0, value));
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -271,8 +274,132 @@ const siteName = app.name;
         }
       }
 
-      // Selector de plataforma en la sección de descargas.
+      // Motor de recomendación compartido por hero, navbar, dock y descargas.
       const downloadRoot = document.querySelector<HTMLElement>('[data-downloads]');
+      const uaData = (navigator as Navigator & {
+        userAgentData?: { platform?: string };
+      }).userAgentData;
+      const environment = detectEnvironment(navigator.userAgent, uaData?.platform ?? '');
+      const validIds = new Set<string>(downloadOptions.map((option) => option.id));
+      let storedId: string | null = null;
+      try {
+        storedId = window.sessionStorage.getItem('miscanciones-download');
+      } catch {
+        // El modo privado puede bloquear sessionStorage; usamos la detección.
+      }
+      let recommendedId: DownloadId =
+        storedId && validIds.has(storedId)
+          ? (storedId as DownloadId)
+          : environment.recommendation;
+
+      const localized = (es: string, en: string) => (root.lang === 'en' ? en : es);
+      const tabFor = (id: DownloadId): 'android' | 'linux' | 'web' => {
+        if (id === 'android') return 'android';
+        if (id === 'web') return 'web';
+        return 'linux';
+      };
+      const setLabel = (element: HTMLElement | null, es: string, en: string) => {
+        if (!element) return;
+        element.dataset.es = es;
+        element.dataset.en = en;
+        element.textContent = localized(es, en);
+      };
+
+      const applyRecommendation = (id: DownloadId) => {
+        recommendedId = id;
+        try {
+          window.sessionStorage.setItem('miscanciones-download', id);
+        } catch {
+          // Sin persistencia: la elección sigue activa mientras dure la página.
+        }
+
+        const option = findDownload(id);
+
+        // CTAs globales (hero, navbar, dock, footer).
+        document.querySelectorAll<HTMLElement>('[data-smart-download]').forEach((link) => {
+          link.setAttribute('href', option.href);
+          if (option.file) link.setAttribute('download', option.file);
+          else link.removeAttribute('download');
+          if (option.external) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener');
+          } else {
+            link.removeAttribute('target');
+            link.removeAttribute('rel');
+          }
+          setLabel(link.querySelector<HTMLElement>('[data-smart-label]'), option.labelEs, option.labelEn);
+          setLabel(link.querySelector<HTMLElement>('[data-smart-detail]'), option.detailEs, option.detailEn);
+          const icon = link.querySelector<HTMLElement>('[data-smart-icon]');
+          if (icon) icon.textContent = option.external ? '↗' : '↓';
+        });
+
+        // Chips y tarjetas de la sección de descargas.
+        document.querySelectorAll<HTMLElement>('[data-recommend]').forEach((chip) => {
+          const active = chip.dataset.recommend === id;
+          chip.classList.toggle('is-active', active);
+          chip.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        document.querySelectorAll<HTMLElement>('[data-download-card]').forEach((card) => {
+          card.classList.toggle('is-recommended', card.dataset.downloadCard === id);
+        });
+
+        // La tarjeta destacada de Linux se adapta a la distro elegida.
+        const featureOption = option.group === 'linux' ? option : findDownload('appimage');
+        setLabel(
+          downloadRoot?.querySelector<HTMLElement>('[data-feature-title]') ?? null,
+          featureOption.featureTitleEs ?? featureOption.titleEs,
+          featureOption.featureTitleEn ?? featureOption.titleEn,
+        );
+        setLabel(
+          downloadRoot?.querySelector<HTMLElement>('[data-feature-text]') ?? null,
+          featureOption.featureTextEs ?? featureOption.descriptionEs,
+          featureOption.featureTextEn ?? featureOption.descriptionEn,
+        );
+        const featureLink = downloadRoot?.querySelector<HTMLElement>('[data-feature-download]');
+        if (featureLink) {
+          featureLink.setAttribute('href', featureOption.href);
+          featureLink.setAttribute('download', featureOption.file);
+          setLabel(
+            featureLink.querySelector<HTMLElement>('[data-smart-label]'),
+            featureOption.labelEs,
+            featureOption.labelEn,
+          );
+          setLabel(
+            featureLink.querySelector<HTMLElement>('[data-smart-detail]'),
+            featureOption.detailEs,
+            featureOption.detailEn,
+          );
+        }
+        const featureCopy = downloadRoot?.querySelector<HTMLButtonElement>('[data-feature-copy]');
+        if (featureCopy && featureOption.command) {
+          featureCopy.dataset.copy = featureOption.command;
+        }
+        const featureCommand = downloadRoot?.querySelector<HTMLElement>('[data-feature-command]');
+        if (featureCommand && featureOption.command) {
+          featureCommand.textContent = featureOption.command;
+        }
+
+        const detected = downloadRoot?.querySelector<HTMLElement>('[data-download-detected]');
+        if (detected) {
+          let es = 'Sin instalación nativa · usa la web';
+          let en = 'No native build · use the web';
+          if (environment.os === 'android') {
+            es = 'Android detectado · APK';
+            en = 'Android detected · APK';
+          } else if (environment.distro === 'Ubuntu' || environment.distro === 'Debian') {
+            es = `${environment.distro} detectado · paquete .deb`;
+            en = `${environment.distro} detected · .deb package`;
+          } else if (environment.distro === 'Fedora' || environment.distro === 'RHEL') {
+            es = `${environment.distro} detectado · paquete .rpm`;
+            en = `${environment.distro} detected · .rpm package`;
+          } else if (environment.os === 'linux') {
+            es = 'Linux detectado · AppImage';
+            en = 'Linux detected · AppImage';
+          }
+          setLabel(detected, es, en);
+        }
+      };
+
       if (downloadRoot) {
         const downloadTabs = Array.from(
           downloadRoot.querySelectorAll<HTMLButtonElement>('[data-download-tab]'),
@@ -280,29 +407,6 @@ const siteName = app.name;
         const downloadPanels = Array.from(
           downloadRoot.querySelectorAll<HTMLElement>('[data-download-panel]'),
         );
-        const detected = downloadRoot.querySelector<HTMLElement>('[data-download-detected]');
-        const uaData = (navigator as Navigator & {
-          userAgentData?: { platform?: string };
-        }).userAgentData;
-        const platform = `${uaData?.platform ?? ''} ${navigator.userAgent}`;
-        const suggested = /android/i.test(platform)
-          ? 'android'
-          : /linux|x11/i.test(platform)
-            ? 'linux'
-            : 'web';
-        const detectedLabels: Record<string, { es: string; en: string }> = {
-          android: { es: 'Android detectado', en: 'Android detected' },
-          linux: { es: 'Linux detectado', en: 'Linux detected' },
-          web: { es: 'Sin instalación', en: 'No install needed' },
-        };
-
-        if (detected) {
-          const label = detectedLabels[suggested] ?? detectedLabels.web;
-          detected.dataset.es = label.es;
-          detected.dataset.en = label.en;
-          detected.textContent = root.lang === 'en' ? label.en : label.es;
-        }
-
         const activateDownload = (id: string) => {
           downloadTabs.forEach((tab) => {
             const active = tab.dataset.downloadTab === id;
@@ -314,17 +418,37 @@ const siteName = app.name;
           });
         };
 
-        activateDownload(suggested);
+        applyRecommendation(recommendedId);
+        activateDownload(tabFor(recommendedId));
+
         downloadTabs.forEach((tab) => {
-          tab.addEventListener('click', () => activateDownload(tab.dataset.downloadTab ?? 'android'));
+          tab.addEventListener('click', () => {
+            const tabId = tab.dataset.downloadTab ?? 'web';
+            activateDownload(tabId);
+            if (tabId === 'android') applyRecommendation('android');
+            else if (tabId === 'web') applyRecommendation('web');
+            else if (findDownload(recommendedId).group !== 'linux') {
+              applyRecommendation('appimage');
+            }
+          });
         });
         downloadRoot.querySelectorAll<HTMLElement>('[data-download-jump]').forEach((jump) => {
           jump.addEventListener('click', () => {
-            activateDownload(jump.dataset.downloadJump ?? 'android');
+            const tabId = jump.dataset.downloadJump ?? 'android';
+            activateDownload(tabId);
+            applyRecommendation(tabId === 'android' ? 'android' : tabId === 'web' ? 'web' : 'appimage');
             downloadRoot.scrollIntoView({
               behavior: reduceMotion ? 'auto' : 'smooth',
               block: 'start',
             });
+          });
+        });
+        downloadRoot.querySelectorAll<HTMLButtonElement>('[data-recommend]').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            const id = chip.dataset.recommend as DownloadId | undefined;
+            if (!id || !validIds.has(id)) return;
+            applyRecommendation(id);
+            activateDownload(tabFor(id));
           });
         });
       }

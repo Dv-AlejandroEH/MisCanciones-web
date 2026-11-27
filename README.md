@@ -20,11 +20,13 @@ src/
 │   ├── Footer.astro          # Footer de 5 columnas
 │   └── PhoneFrame.astro      # Marco de móvil reutilizable
 ├── data/app.ts               # Datos espejo de la app Flutter
+├── data/downloads.ts         # Catálogo de assets y recomendaciones
 ├── layouts/BaseLayout.astro  # <head>, estilos globales y todo el JS de interacción
 ├── pages/
 │   ├── index.astro           # Composición de la página
 │   └── robots.txt.ts         # robots.txt con la URL pública del sitemap
 ├── utils/assets.ts           # Resolución de rutas con el base de Astro
+├── utils/platform.ts         # Detección de sistema y distro
 └── styles/global.css         # Tokens, componentes y animaciones
 ```
 
@@ -51,7 +53,7 @@ Los archivos se suben a dos releases con el mismo tag `v1.0.0`:
 1. `Dv-AlejandroEH/MisCanciones` (privado): release original de la app.
 2. `Dv-AlejandroEH/MisCanciones-web` (público): espejo con los mismos assets; es el que enlaza la landing.
 
-En `src/data/app.ts` están centralizados `downloads.files`, `downloads.releaseUrl` y `downloads.checksumUrl`. Si cambia la versión, actualiza ahí el tag y los nombres de archivo: la navbar, el hero, el dock, el footer y la sección `#descargas` se alimentan de ese único objeto. `public/downloads/` queda reservado por si algún día se decide servir los binarios desde el propio Pages.
+En `src/data/downloads.ts` están centralizados `downloads.files`, `downloads.releaseUrl`, `downloads.checksumUrl` y el catálogo `downloadOptions` con etiquetas, tamaños y comandos. `src/utils/platform.ts` decide qué opción recomendar según el sistema. Si cambia la versión, actualiza ahí el tag y los nombres de archivo: los CTAs de hero, navbar, dock y la sección `#descargas` se alimentan de ese único catálogo. `public/downloads/` queda reservado por si algún día se decide servir los binarios desde el propio Pages.
 
 ## Animaciones e interacciones
 
@@ -61,7 +63,7 @@ El `<script>` de `src/layouts/BaseLayout.astro` calcula el estado visual en cada
 - **Hero**: resplandor radial, tres móviles inclinados y desvanecimiento progresivo del texto.
 - **Bento**: revelado al entrar en pantalla, hover con elevación y burbujas flotantes.
 - **Scrollytelling** (`[data-story]`, 480vh): crossfade entre «Tu música vive en mil sitios» y «¿Por qué no juntarlas?», seis tarjetas que vuelan al teléfono con estela, y cierre con el móvil a la izquierda y el texto a la derecha.
-- **Descargas** (`[data-downloads]`): detecta Android/Linux y preselecciona la pestaña, permite cambiar entre Android, Linux y Web, y copia los comandos de instalación al portapapeles.
+- **Descargas** (`[data-downloads]`): detecta Android, distro Linux (Ubuntu/Debian → `.deb`, Fedora/RHEL → `.rpm`, resto → AppImage) o sin build nativo (Web), y aplica esa recomendación a hero, navbar, dock y footer. En Linux hay chips para corregir la distro manualmente; los comandos de instalación se copian al portapapeles y la elección se recuerda durante la sesión.
 - **Demo interactiva** (`[data-demo]`): pasos `01/02/03` clicables con recorrido automático al entrar en pantalla; el móvil cambia de contenido y muestra un toast «Cambio aplicado».
 - **Contador** (`[data-counter]`): anima de 0 a 100% al entrar en pantalla.
 - **Selector ES/EN**: intercambia las etiquetas cortas que tengan `data-en`.

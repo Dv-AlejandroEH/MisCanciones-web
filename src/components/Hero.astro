@@ -26,9 +26,9 @@ const recent = [
     </p>
 
     <div class="download-row">
-      <a href={appHref(app.apkUrl)} download="MisCanciones.apk" class="store-pill">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3" /></svg>
-        <span><strong data-en="Download APK">Descargar APK</strong><small>Android · directo</small></span>
+      <a href={appHref(app.apkUrl)} download="MisCanciones.apk" class="store-pill" data-smart-download>
+        <span class="smart-icon h-5 w-5" data-smart-icon aria-hidden="true">↓</span>
+        <span><strong data-smart-label data-en="Download APK" data-es="Descargar APK">Descargar APK</strong><small data-smart-detail>Android · directo</small></span>
       </a>
       <a href={app.webUrl} target="_blank" rel="noopener" class="store-pill">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></svg>
