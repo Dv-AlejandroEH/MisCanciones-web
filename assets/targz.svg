@@ -1,22 +1,160 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
   <defs>
-    <linearGradient id="tarEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fff1d2" />
-      <stop offset="100%" stop-color="#d99b4f" />
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.32" />
+      <stop offset="70%" stop-color="#000000" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="flapBackL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e7be89" />
+      <stop offset="100%" stop-color="#c6965c" />
     </linearGradient>
-    <linearGradient id="tarBody" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f7d89b" />
-      <stop offset="100%" stop-color="#c8873e" />
+
+    <linearGradient id="flapBackR" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ebd0a7" />
+      <stop offset="100%" stop-color="#cca068" />
+    </linearGradient>
+
+    <linearGradient id="insideL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c5227" />
+      <stop offset="100%" stop-color="#9e6e3c" />
+    </linearGradient>
+
+    <linearGradient id="insideR" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8b5e30" />
+      <stop offset="100%" stop-color="#6d461f" />
+    </linearGradient>
+
+    <linearGradient id="wallL" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#b6834a" />
+      <stop offset="100%" stop-color="#996834" />
+    </linearGradient>
+
+    <linearGradient id="wallR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cb995e" />
+      <stop offset="100%" stop-color="#ad7a42" />
+    </linearGradient>
+
+    <linearGradient id="flapFrontL" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ecc796" />
+      <stop offset="100%" stop-color="#d29f64" />
+    </linearGradient>
+
+    <linearGradient id="flapFrontR" x1="80%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" stop-color="#e3b67d" />
+      <stop offset="100%" stop-color="#c59358" />
+    </linearGradient>
+
+    <linearGradient id="docRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f25c1d" />
+      <stop offset="100%" stop-color="#c4380a" />
+    </linearGradient>
+
+    <linearGradient id="folderCream" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ebe3ce" />
+      <stop offset="100%" stop-color="#cfc2a2" />
+    </linearGradient>
+
+    <linearGradient id="docBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3c96b8" />
+      <stop offset="100%" stop-color="#226680" />
+    </linearGradient>
+
+    <linearGradient id="folderYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9d464" />
+      <stop offset="75%" stop-color="#ecc043" />
+      <stop offset="100%" stop-color="#d6a327" />
+    </linearGradient>
+
+    <radialGradient id="tuxBlack" cx="62%" cy="22%" r="75%">
+      <stop offset="0%" stop-color="#3b464f" />
+      <stop offset="40%" stop-color="#161c21" />
+      <stop offset="100%" stop-color="#06080a" />
+    </radialGradient>
+
+    <linearGradient id="tuxBeak" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffd524" />
+      <stop offset="55%" stop-color="#ffa200" />
+      <stop offset="100%" stop-color="#d97200" />
     </linearGradient>
   </defs>
 
-  <rect x="28" y="20" width="200" height="216" rx="22" fill="url(#tarEdge)" />
-  <rect x="36" y="28" width="184" height="200" rx="16" fill="url(#tarBody)" />
+  
+  <ellipse cx="132" cy="212" rx="92" ry="30" transform="rotate(-14 132 212)" fill="url(#shadow)" />
 
-  <path d="M36 92h184" fill="none" stroke="#a7652a" stroke-width="4" opacity="0.55" />
-  <rect x="36" y="92" width="184" height="34" fill="#fbe3b0" opacity="0.85" />
-  <path d="M88 28v200M168 28v200" fill="none" stroke="#b87532" stroke-width="3" opacity="0.18" />
+  
+  <polygon points="54,106 23,60 106,33 135,76" fill="url(#flapBackL)" />
+  <polyline points="23,60 54,106" fill="none" stroke="#9d6d38" stroke-width="1.5" />
 
-  <rect x="58" y="136" width="140" height="58" rx="14" fill="#1e5b3b" />
-  <text x="128" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="32" font-weight="700" fill="#d9ffe8">.gz</text>
+  <polygon points="135,76 164,21 247,46 210,90" fill="url(#flapBackR)" />
+  <polyline points="247,46 210,90" fill="none" stroke="#9d6d38" stroke-width="1.5" />
+
+  
+  <polygon points="54,106 135,76 135,152 54,112" fill="url(#insideL)" />
+  <polygon points="135,76 210,90 210,104 135,152" fill="url(#insideR)" />
+
+  
+  <polygon points="57,67 96,49 112,143 74,118" fill="url(#docRed)" />
+
+  
+  <path d="M 99 31 Q 100 26 105 27 L 145 35 L 151 25 Q 153 23 157 24 L 173 27 Q 176 28 177 32 L 180 42 L 190 45 Q 194 46 193 51 L 176 116 L 128 153 L 94 131 Z" fill="url(#folderCream)" />
+
+  
+  <polygon points="171,67 201,69 197,100 165,125" fill="url(#docBlue)" />
+
+  
+  <path d="M 72 33 Q 72 28 77 30 L 124 46 L 130 38 Q 132 36 136 37 L 154 44 Q 157 45 158 49 L 161 59 L 166 124 L 128 153 L 84 125 Z" fill="url(#folderYellow)" />
+
+  
+  <path d="M 121 63 C 103 63, 99 77, 99 95 C 99 106, 94 118, 92 130 L 128 153 L 152 134 C 149 116, 146 104, 146 93 C 146 75, 139 63, 121 63 Z" fill="url(#tuxBlack)" />
+  <ellipse cx="129" cy="73" rx="10" ry="4.5" transform="rotate(24 129 73)" fill="#ffffff" fill-opacity="0.35" />
+
+  
+  <path d="M 105 112 C 99 120, 97 128, 98 134 L 128 153 L 143 141 C 142 130, 138 119, 132 112 Z" fill="#f7f9fb" />
+
+  
+  <ellipse cx="110" cy="91" rx="6.2" ry="8.8" fill="#e6eaee" />
+  <ellipse cx="111.5" cy="92.5" rx="3.3" ry="4.6" fill="#111417" />
+  <circle cx="110.5" cy="90.5" r="1.2" fill="#ffffff" />
+
+  <ellipse cx="127" cy="91" rx="7.2" ry="9.5" fill="#f2f5f7" />
+  <ellipse cx="125.5" cy="92.5" rx="3.7" ry="5" fill="#111417" />
+  <circle cx="124.2" cy="90.5" r="1.4" fill="#ffffff" />
+
+  
+  <path d="M 103 106 C 106 116, 113 120, 118 120 C 124 120, 131 115, 133 105 Z" fill="#e07c00" />
+  <path d="M 101 106 C 100 101, 108 94, 117 94 C 125 94, 132 99, 135 103 C 136 105, 135 108, 131 109 C 126 111, 121 113, 116 113 C 110 113, 102 109, 101 106 Z" fill="url(#tuxBeak)" />
+  <path d="M 102 106 Q 117 114 133 105" fill="none" stroke="#9e5200" stroke-width="1.1" stroke-linecap="round" />
+  <circle cx="114.5" cy="97.5" r="0.8" fill="#8c4800" />
+  <circle cx="119.5" cy="97.5" r="0.8" fill="#8c4800" />
+
+  
+  <path d="M 142 98 C 149 108, 155 120, 154 133 L 143 141 C 143 130, 140 115, 137 108 Z" fill="url(#tuxBlack)" />
+
+  
+  <polygon points="54,106 128,154 131,233 62,192" fill="url(#wallL)" />
+  <polygon points="128,154 210,90 203,185 131,233" fill="url(#wallR)" />
+  <line x1="128" y1="154" x2="131" y2="233" stroke="#784d22" stroke-width="1.2" />
+
+  
+  <polygon points="54,106 15,130 88,180 128,154" fill="url(#flapFrontL)" />
+  <polyline points="15,130 88,180 128,154" fill="none" stroke="#9c6b35" stroke-width="1.6" stroke-linejoin="round" />
+
+  
+  <g transform="matrix(0.716, 0.477, -0.811, 0.514, 60.0, 115.0)" fill="#769b0e" fill-rule="evenodd">
+    <path d="M 10 2 H 17 V 8 H 23 V 14 H 17 V 24 C 17 26, 18 27, 21 27 H 23 V 33 C 21 33.5, 19 33.5, 17 33.5 C 12 33.5, 10 31, 10 25 V 14 H 6 V 8 H 10 Z" />
+    <path d="M 27 14 C 28 9.5, 32 7.5, 38 7.5 C 45 7.5, 48 10.5, 48 16.5 V 33 H 41.5 V 30.5 C 39.5 32.5, 37 33.5, 33.5 33.5 C 28.5 33.5, 25.5 30.5, 25.5 26 C 25.5 20.5, 30 18.5, 37.5 18 L 41 17.7 V 16.5 C 41 14, 39.5 12.8, 37 12.8 C 34.8 12.8, 33.5 13.8, 33.2 15.5 Z M 41 22 L 38 22.3 C 34.5 22.6, 32.5 23.8, 32.5 25.8 C 32.5 27.6, 34 28.7, 36.2 28.7 C 39 28.7, 41 27, 41 24.2 Z" />
+    <path d="M 53 8 H 59.5 V 12 C 61 9, 63.5 7.5, 66.8 7.5 C 67.8 7.5, 68.8 7.7, 69.5 8 V 14.5 C 68.5 14.2, 67.3 14, 66 14 C 62 14, 60 16.5, 60 21 V 33 H 53 Z" />
+  </g>
+
+  
+  <polygon points="128,154 164,185 246,121 210,90" fill="url(#flapFrontR)" />
+  <polyline points="128,154 164,185 246,121" fill="none" stroke="#966530" stroke-width="1.6" stroke-linejoin="round" />
+
+  
+  <g transform="matrix(0.804, -0.628, 0.712, 0.613, 148.4, 139.6)" fill="#769b0e" fill-rule="evenodd">
+    <path d="M 20 8 H 26.5 V 31 C 26.5 38.5, 21.5 42.5, 13.5 42.5 C 7 42.5, 3 39.5, 2.2 35 H 9.2 C 9.8 36.8, 11.4 37.6, 13.8 37.6 C 17.8 37.6, 19.8 35.5, 19.8 31.2 V 29 C 18 31.2, 15.5 32.4, 12.5 32.4 C 6.2 32.4, 2 27.5, 2 20 C 2 12.5, 6.2 7.5, 12.5 7.5 C 15.8 7.5, 18.2 8.8, 20 11 Z M 14.2 13.2 C 10.8 13.2, 8.8 15.8, 8.8 20 C 8.8 24.2, 10.8 26.8, 14.2 26.8 C 17.6 26.8, 19.8 24.2, 19.8 20 C 19.8 15.8, 17.6 13.2, 14.2 13.2 Z" />
+    <path d="M 31 8 H 51 V 13.2 L 39.2 27.2 H 51.5 V 33 H 30.5 V 27.8 L 42.3 13.8 H 31 Z" />
+  </g>
 </svg>
