@@ -1,6 +1,6 @@
 ---
-import { withBase, appHref } from '../utils/assets';
-import { app } from '../data/app';
+import { withBase } from '../utils/assets';
+import { app, downloads } from '../data/app';
 
 const columns = [
   {
@@ -8,9 +8,9 @@ const columns = [
     en: 'Product',
     links: [
       { label: 'Características', en: 'Features', href: '#caracteristicas' },
+      { label: 'Descargas', en: 'Downloads', href: '#descargas' },
       { label: 'Cómo funciona', en: 'How it works', href: '#como-funciona' },
       { label: 'Personalización', en: 'Personalization', href: '#personalizacion' },
-      { label: 'Descargar APK', en: 'Download APK', href: appHref(app.apkUrl) },
     ],
   },
   {
@@ -19,7 +19,7 @@ const columns = [
     links: [
       { label: 'Abrir app web', en: 'Open web app', href: app.webUrl },
       { label: 'Comunidad', en: 'Community', href: '#comunidad' },
-      { label: `Versión ${app.version}`, en: `Version ${app.version}`, href: '#inicio' },
+      { label: `Versión ${app.version}`, en: `Version ${app.version}`, href: downloads.releaseUrl },
     ],
   },
   {

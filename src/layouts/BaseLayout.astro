@@ -271,6 +271,112 @@ const siteName = app.name;
         }
       }
 
+      // Selector de plataforma en la sección de descargas.
+      const downloadRoot = document.querySelector<HTMLElement>('[data-downloads]');
+      if (downloadRoot) {
+        const downloadTabs = Array.from(
+          downloadRoot.querySelectorAll<HTMLButtonElement>('[data-download-tab]'),
+        );
+        const downloadPanels = Array.from(
+          downloadRoot.querySelectorAll<HTMLElement>('[data-download-panel]'),
+        );
+        const detected = downloadRoot.querySelector<HTMLElement>('[data-download-detected]');
+        const uaData = (navigator as Navigator & {
+          userAgentData?: { platform?: string };
+        }).userAgentData;
+        const platform = `${uaData?.platform ?? ''} ${navigator.userAgent}`;
+        const suggested = /android/i.test(platform)
+          ? 'android'
+          : /linux|x11/i.test(platform)
+            ? 'linux'
+            : 'web';
+        const detectedLabels: Record<string, { es: string; en: string }> = {
+          android: { es: 'Android detectado', en: 'Android detected' },
+          linux: { es: 'Linux detectado', en: 'Linux detected' },
+          web: { es: 'Sin instalación', en: 'No install needed' },
+        };
+
+        if (detected) {
+          const label = detectedLabels[suggested] ?? detectedLabels.web;
+          detected.dataset.es = label.es;
+          detected.dataset.en = label.en;
+          detected.textContent = root.lang === 'en' ? label.en : label.es;
+        }
+
+        const activateDownload = (id: string) => {
+          downloadTabs.forEach((tab) => {
+            const active = tab.dataset.downloadTab === id;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          downloadPanels.forEach((panel) => {
+            panel.hidden = panel.dataset.downloadPanel !== id;
+          });
+        };
+
+        activateDownload(suggested);
+        downloadTabs.forEach((tab) => {
+          tab.addEventListener('click', () => activateDownload(tab.dataset.downloadTab ?? 'android'));
+        });
+        downloadRoot.querySelectorAll<HTMLElement>('[data-download-jump]').forEach((jump) => {
+          jump.addEventListener('click', () => {
+            activateDownload(jump.dataset.downloadJump ?? 'android');
+            downloadRoot.scrollIntoView({
+              behavior: reduceMotion ? 'auto' : 'smooth',
+              block: 'start',
+            });
+          });
+        });
+      }
+
+      // Botones «copiar comando» de las guías de instalación.
+      document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const text = button.dataset.copy ?? '';
+          try {
+            if (navigator.clipboard?.writeText) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const input = document.createElement('textarea');
+              input.value = text;
+              input.style.position = 'fixed';
+              input.style.opacity = '0';
+              document.body.appendChild(input);
+              input.select();
+              const legacyDocument = document as unknown as {
+                execCommand: (commandId: string) => boolean;
+              };
+              legacyDocument.execCommand('copy');
+              input.remove();
+            }
+
+            const label = button.querySelector<HTMLElement>('[data-copy-label]');
+            const copiedEs = button.dataset.copyEs ?? '¡Copiado!';
+            const copiedEn = button.dataset.copyEn ?? 'Copied!';
+            const originalEs = label?.dataset.es ?? label?.textContent ?? '';
+            const originalEn = label?.dataset.en ?? originalEs;
+
+            button.classList.add('is-copied');
+            if (label) {
+              label.dataset.es = copiedEs;
+              label.dataset.en = copiedEn;
+              label.textContent = root.lang === 'en' ? copiedEn : copiedEs;
+            }
+
+            window.setTimeout(() => {
+              button.classList.remove('is-copied');
+              if (label) {
+                label.dataset.es = originalEs;
+                label.dataset.en = originalEn;
+                label.textContent = root.lang === 'en' ? originalEn : originalEs;
+              }
+            }, 1800);
+          } catch {
+            // Si el navegador bloquea el portapapeles, el comando sigue visible para copiar a mano.
+          }
+        });
+      });
+
       // Selector ES / EN para las etiquetas cortas.
       const langButton = document.querySelector<HTMLButtonElement>('[data-lang]');
       langButton?.addEventListener('click', () => {

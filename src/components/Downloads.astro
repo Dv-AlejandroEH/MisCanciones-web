@@ -1,0 +1,316 @@
+---
+import { app, downloads } from '../data/app';
+
+const apkName = 'MisCanciones-1.0.0-android.apk';
+const appImageName = 'MisCanciones-1.0.0-linux-x86_64.AppImage';
+const appImageCommand = `chmod +x ${appImageName} && ./${appImageName} --appimage-extract-and-run`;
+
+const tabs = [
+  { id: 'android', label: 'Android', en: 'Android', icon: 'android' },
+  { id: 'linux', label: 'Linux', en: 'Linux', icon: 'linux' },
+  { id: 'web', label: 'Web', en: 'Web', icon: 'web' },
+] as const;
+
+const linuxCards = [
+  {
+    id: 'deb',
+    title: 'Debian / Ubuntu',
+    enTitle: 'Debian / Ubuntu',
+    description: 'Instalador nativo para apt.',
+    enDescription: 'Native installer for apt.',
+    format: '.deb',
+    size: '77 MB',
+    file: 'MisCanciones-1.0.0-linux-amd64.deb',
+    href: downloads.files.deb,
+    command: 'sudo apt install ./MisCanciones-1.0.0-linux-amd64.deb',
+    icon: 'deb',
+    badge: 'apt',
+  },
+  {
+    id: 'rpm',
+    title: 'Fedora / RPM',
+    enTitle: 'Fedora / RPM',
+    description: 'Paquete para dnf y RPM.',
+    enDescription: 'Package for dnf and RPM.',
+    format: '.rpm',
+    size: '77 MB',
+    file: 'MisCanciones-1.0.0-linux-x86_64.rpm',
+    href: downloads.files.rpm,
+    command: 'sudo dnf install ./MisCanciones-1.0.0-linux-x86_64.rpm',
+    icon: 'rpm',
+    badge: 'dnf',
+  },
+  {
+    id: 'snap',
+    title: 'Snap',
+    enTitle: 'Snap',
+    description: 'Instalación aislada con Snap.',
+    enDescription: 'Sandboxed install with Snap.',
+    format: '.snap',
+    size: '78 MB',
+    file: 'MisCanciones-1.0.0-linux-amd64.snap',
+    href: downloads.files.snap,
+    command: 'sudo snap install ./MisCanciones-1.0.0-linux-amd64.snap --dangerous',
+    icon: 'snap',
+    badge: 'snapd',
+  },
+  {
+    id: 'portable',
+    title: 'Portable',
+    enTitle: 'Portable',
+    description: 'Sin instalar: extrae y abre.',
+    enDescription: 'No install: extract and open.',
+    format: '.tar.gz',
+    size: '80 MB',
+    file: 'MisCanciones-1.0.0-linux-portable.tar.gz',
+    href: downloads.files.portable,
+    command: 'tar -xzf MisCanciones-1.0.0-linux-portable.tar.gz && cd miscanciones-1.0.0-portable && ./install.sh',
+    icon: 'archive',
+    badge: '',
+  },
+  {
+    id: 'all',
+    title: 'Paquete completo',
+    enTitle: 'Full bundle',
+    description: 'Todos los formatos Linux + SHA256SUMS.',
+    enDescription: 'Every Linux format + SHA256SUMS.',
+    format: '.tar.gz',
+    size: '390 MB',
+    file: 'MisCanciones-1.0.0-linux-all.tar.gz',
+    href: downloads.files.all,
+    command: 'tar -xzf MisCanciones-1.0.0-linux-all.tar.gz',
+    icon: 'bundle',
+    badge: 'todo en uno',
+  },
+] as const;
+
+const icons: Record<string, string> = {
+  android:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="7" width="14" height="11" rx="3"/><path d="M8 7 6.5 4.5M16 7l1.5-2.5M9 12h.01M15 12h.01M9 15c1.6 1.2 4.4 1.2 6 0"/></svg>',
+  linux:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 2c-2.8 0-4.3 2.6-4.1 6.2-.2 2.1-1.6 3.6-2.4 5.6-.9 2.3.2 5.5 2.9 6.4.9.3 1.7.1 2.4-.4.7.5 1.5.7 2.4.4 2.7-.9 3.8-4.1 2.9-6.4-.8-2-2.2-3.5-2.4-5.6C16.3 4.6 14.8 2 12 2Z"/><path d="M9.5 13.5h5M10 18c1.2.7 2.8.7 4 0"/></svg>',
+  web:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg>',
+  appimage:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>',
+  deb:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z"/><path d="M12 11v6M9 14h6"/></svg>',
+  rpm:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5 11 15l4.5-6"/></svg>',
+  snap:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M7 7l3 3M14 14l3 3M17 7l-3 3M10 14l-3 3"/></svg>',
+  archive:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v6M12 14h3"/></svg>',
+  bundle:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m3 8 9-5 9 5v8l-9 5-9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>',
+};
+
+const copyIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
+---
+
+<section id="descargas" class="downloads-section" data-downloads>
+  <div class="downloads-aurora" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <header class="downloads-header" data-reveal>
+      <div class="max-w-3xl">
+        <span class="section-kicker" data-en={`Downloads · v${app.version}`}>Descargas · v{app.version}</span>
+        <h2 class="section-title-dark" data-en="Your platform, one click.">Tu plataforma,<br /><span class="text-app-primary-bright">un clic.</span></h2>
+        <p class="downloads-lead" data-en="The same music player for Android, Linux and your browser. Pick a format and download: no account, no card, no subscription.">
+          El mismo reproductor para Android, Linux y tu navegador. Elige tu formato y descarga: sin cuenta, sin tarjeta y sin suscripción.
+        </p>
+      </div>
+
+      <div class="downloads-header-side">
+        <span class="downloads-release-badge"><i aria-hidden="true"></i><span data-en="Latest release">Última release</span> · v{app.version}</span>
+        <a href={downloads.releaseUrl} target="_blank" rel="noopener" class="downloads-release-link">
+          <span data-en="See release notes">Ver notas de la release</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="download-console" data-reveal>
+      <div class="download-tabs" role="tablist" aria-label="Plataformas / Platforms">
+        {
+          tabs.map((tab) => (
+            <button
+              type="button"
+              class:list={['download-tab', { 'is-active': tab.id === 'android' }]}
+              data-download-tab={tab.id}
+              role="tab"
+              aria-selected={tab.id === 'android' ? 'true' : 'false'}
+              aria-controls={`download-panel-${tab.id}`}
+            >
+              <span class="download-tab-icon" set:html={icons[tab.icon]}></span>
+              <span data-en={tab.en}>{tab.label}</span>
+            </button>
+          ))
+        }
+        <span class="download-detected" data-download-detected aria-live="polite"></span>
+      </div>
+
+      <div class="download-body">
+        <!-- Android -->
+        <div
+          class="download-panel"
+          id="download-panel-android"
+          data-download-panel="android"
+          role="tabpanel"
+        >
+          <article class="download-feature download-feature-android">
+            <div class="download-feature-copy">
+              <span class="download-feature-badge" data-en="For phones & tablets">Para móvil y tablet</span>
+              <h3 data-en="Install the APK on Android">Instala el APK en Android</h3>
+              <p data-en="One file, no store, no account. Allow installation from unknown sources, open the APK and you're in.">
+                Un solo archivo, sin tienda y sin cuenta. Permite instalaciones de fuentes desconocidas, abre el APK y listo.
+              </p>
+              <div class="download-actions">
+                <a href={downloads.files.android} download="MisCanciones.apk" class="cta-pill download-primary">
+                  <span aria-hidden="true">↓</span><span data-en="Download APK · 138 MB">Descargar APK · 138 MB</span>
+                </a>
+                <a href={downloads.checksumUrl} target="_blank" rel="noopener" class="download-secondary">
+                  <span data-en="Verify SHA-256">Verificar SHA-256</span><span aria-hidden="true">↗</span>
+                </a>
+              </div>
+              <ul class="download-checks">
+                <li data-en="Android 8.0 or newer">Android 8.0 o superior</li>
+                <li data-en="Works offline once installed">Funciona sin conexión tras instalar</li>
+                <li data-en="Free forever">Gratis para siempre</li>
+              </ul>
+            </div>
+            <div class="download-feature-art download-art-android" aria-hidden="true">
+              <div class="download-art-orbit"></div>
+              <span class="download-art-icon" set:html={icons.android}></span>
+              <span class="download-art-file">{apkName}</span>
+            </div>
+          </article>
+
+          <div class="download-alt-row">
+            <span data-en="Looking for another platform?">¿Buscas otra plataforma?</span>
+            <button type="button" data-download-jump="linux"><span data-en="Download for Linux">Descargar para Linux</span> →</button>
+            <a href={app.webUrl} target="_blank" rel="noopener"><span data-en="Open web app">Abrir app web</span> →</a>
+          </div>
+        </div>
+
+        <!-- Linux -->
+        <div
+          class="download-panel"
+          id="download-panel-linux"
+          data-download-panel="linux"
+          role="tabpanel"
+          hidden
+        >
+          <article class="download-feature download-feature-linux">
+            <div class="download-feature-copy">
+              <span class="download-feature-badge" data-en="Recommended for Linux">Recomendado en Linux</span>
+              <h3 data-en="AppImage: one file, any distro">AppImage: un archivo, cualquier distro</h3>
+              <p data-en="No root permissions and no libfuse2 needed: extract and run. Prefer a native package? Choose one below.">
+                Sin permisos de root y sin necesidad de libfuse2: extrae y ejecuta. ¿Prefieres un paquete nativo? Elige uno abajo.
+              </p>
+              <div class="download-actions">
+                <a href={downloads.files.appimage} download class="cta-pill download-primary">
+                  <span aria-hidden="true">↓</span><span data-en="Download AppImage · 80 MB">Descargar AppImage · 80 MB</span>
+                </a>
+                <button type="button" class="download-secondary copy-button" data-copy={appImageCommand} data-copy-es="¡Copiado!" data-copy-en="Copied!">
+                  <span class="copy-icon" set:html={copyIcon} /><span data-copy-label data-en="Copy command">Copiar comando</span>
+                </button>
+              </div>
+              <code class="download-feature-command">{appImageCommand}</code>
+            </div>
+            <div class="download-feature-art download-art-linux" aria-hidden="true">
+              <div class="download-art-orbit"></div>
+              <span class="download-art-icon" set:html={icons.linux}></span>
+              <span class="download-art-file">x86_64 · amd64</span>
+            </div>
+          </article>
+
+          <div class="download-section-label">
+            <span data-en="Or pick your package manager">O elige tu gestor de paquetes</span>
+            <span class="download-section-line" aria-hidden="true"></span>
+            <span class="download-section-count">5 <span data-en="formats">formatos</span></span>
+          </div>
+
+          <div class="download-grid">
+            {
+              linuxCards.map((card) => (
+                <article class="download-card">
+                  <div class="download-card-head">
+                    <span class="download-card-icon" set:html={icons[card.icon]} />
+                    {card.badge && <span class="download-card-badge">{card.badge}</span>}
+                  </div>
+                  <h3 data-en={card.enTitle}>{card.title}</h3>
+                  <p data-en={card.enDescription}>{card.description}</p>
+                  <span class="download-card-file">{card.file}</span>
+                  <div class="download-card-meta">
+                    <span class="download-card-format">{card.format}</span>
+                    <span>{card.size}</span>
+                  </div>
+                  <div class="download-card-actions">
+                    <a href={card.href} download class="download-card-button">
+                      <span data-en="Download">Descargar</span><span aria-hidden="true">↗</span>
+                    </a>
+                    <button
+                      type="button"
+                      class="copy-button copy-button-icon"
+                      data-copy={card.command}
+                      data-copy-es="¡Copiado!"
+                      data-copy-en="Copied!"
+                      aria-label={`Copiar comando ${card.title}`}
+                    >
+                      <span class="copy-icon" set:html={copyIcon} />
+                    </button>
+                  </div>
+                  <code class="download-card-command">{card.command}</code>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Web -->
+        <div
+          class="download-panel"
+          id="download-panel-web"
+          data-download-panel="web"
+          role="tabpanel"
+          hidden
+        >
+          <article class="download-feature download-feature-web">
+            <div class="download-feature-copy">
+              <span class="download-feature-badge" data-en="No installation needed">Sin instalar nada</span>
+              <h3 data-en="Open Mis Canciones in your browser">Abre Mis Canciones en el navegador</h3>
+              <p data-en="The full app, always up to date. Sign in, search your music and keep your playlists in sync.">
+                La app completa, siempre actualizada. Entra, busca tu música y mantén tus playlists sincronizadas.
+              </p>
+              <div class="download-actions">
+                <a href={app.webUrl} target="_blank" rel="noopener" class="cta-pill download-primary">
+                  <span aria-hidden="true">↗</span><span data-en="Open web app">Abrir app web</span>
+                </a>
+                <button type="button" data-download-jump="linux" class="download-secondary">
+                  <span data-en="Prefer a native app?">¿Prefieres la app nativa?</span>
+                </button>
+              </div>
+              <ul class="download-checks">
+                <li data-en="Works on Windows, macOS and Linux">Funciona en Windows, macOS y Linux</li>
+                <li data-en="Same library as the native app">La misma biblioteca que la app nativa</li>
+                <li data-en="No download required">Sin descargas</li>
+              </ul>
+            </div>
+            <div class="download-feature-art download-art-web" aria-hidden="true">
+              <div class="download-art-orbit"></div>
+              <span class="download-art-icon" set:html={icons.web}></span>
+              <span class="download-art-file">mis-canciones.web</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <p class="downloads-footnote" data-reveal>
+      <span data-en="All files are free and verified with SHA-256.">Todos los archivos son gratuitos y están verificados con SHA-256.</span>
+      <a href={downloads.checksumUrl} target="_blank" rel="noopener"><span data-en="Download checksums">Descargar checksums</span> ↗</a>
+      <span data-en="Windows, macOS, iOS and Flatpak builds are not included in v1.0.0.">Las versiones Windows, macOS, iOS y Flatpak no están incluidas en v1.0.0.</span>
+    </p>
+  </div>
+</section>
