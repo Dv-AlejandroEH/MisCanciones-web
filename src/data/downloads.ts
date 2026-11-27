@@ -1,7 +1,7 @@
 const releaseBase =
   'https://github.com/Dv-AlejandroEH/MisCanciones-web/releases/download/v1.0.0/';
 const androidReleaseBase =
-  'https://github.com/Dv-AlejandroEH/MisCanciones-web/releases/download/v1.0.3/';
+  'https://github.com/Dv-AlejandroEH/MisCanciones-web/releases/download/v1.0.4/';
 
 export type DownloadId =
   | 'android'
@@ -40,12 +40,12 @@ export interface DownloadOption {
 }
 
 export const downloads = {
-  version: '1.0.3',
-  tag: 'v1.0.3',
-  releaseUrl: 'https://github.com/Dv-AlejandroEH/MisCanciones-web/releases/tag/v1.0.3',
+  version: '1.0.4',
+  tag: 'v1.0.4',
+  releaseUrl: 'https://github.com/Dv-AlejandroEH/MisCanciones-web/releases/tag/v1.0.4',
   checksumUrl: `${androidReleaseBase}SHA256SUMS.txt`,
   files: {
-    android: `${androidReleaseBase}MisCanciones-1.0.3-android.apk`,
+    android: `${androidReleaseBase}MisCanciones-1.0.4-android.apk`,
     appimage: `${releaseBase}MisCanciones-1.0.0-linux-x86_64.AppImage`,
     deb: `${releaseBase}MisCanciones-1.0.0-linux-amd64.deb`,
     rpm: `${releaseBase}MisCanciones-1.0.0-linux-x86_64.rpm`,
@@ -72,7 +72,7 @@ export const downloadOptions: DownloadOption[] = [
     chipEn: 'Android',
     format: 'APK',
     size: '138 MB',
-    file: 'MisCanciones-1.0.3-android.apk',
+    file: 'MisCanciones-1.0.4-android.apk',
     href: downloads.files.android,
   },
   {
