@@ -1,6 +1,13 @@
 ---
 import { app, downloads } from '../data/app';
 import { downloadOptions, type DownloadId } from '../data/downloads';
+import androidIcon from '../../assets/android.svg?url';
+import appImageIcon from '../../assets/appimage.svg?url';
+import fedoraIcon from '../../assets/fedora.svg?url';
+import snapIcon from '../../assets/snap.svg?url';
+import targzIcon from '../../assets/targz.svg?url';
+import tuxIcon from '../../assets/tux.svg?url';
+import ubuntuIcon from '../../assets/ubuntu.svg?url';
 
 const apkName = 'MisCanciones-1.0.0-android.apk';
 const appImageOption = downloadOptions.find((option) => option.id === 'appimage')!;
@@ -43,6 +50,22 @@ const icons: Record<string, string> = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m3 8 9-5 9 5v8l-9 5-9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>',
 };
 
+const brandIcons: Record<string, string> = {
+  android: androidIcon,
+  appimage: appImageIcon,
+  deb: ubuntuIcon,
+  rpm: fedoraIcon,
+  snap: snapIcon,
+  portable: targzIcon,
+  all: targzIcon,
+  archive: targzIcon,
+  bundle: targzIcon,
+  linux: tuxIcon,
+};
+
+const iconHtml = (key: string): string =>
+  brandIcons[key] ? `<img src="${brandIcons[key]}" alt="" />` : icons[key] ?? '';
+
 const copyIcon =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
 ---
@@ -80,7 +103,7 @@ const copyIcon =
               aria-selected={tab.id === 'android' ? 'true' : 'false'}
               aria-controls={`download-panel-${tab.id}`}
             >
-              <span class="download-tab-icon" set:html={icons[tab.icon]}></span>
+              <span class="download-tab-icon" set:html={iconHtml(tab.icon)}></span>
               <span data-en={tab.en}>{tab.label}</span>
             </button>
           ))
@@ -119,7 +142,7 @@ const copyIcon =
             </div>
             <div class="download-feature-art download-art-android" aria-hidden="true">
               <div class="download-art-orbit"></div>
-              <span class="download-art-icon" set:html={icons.android}></span>
+              <span class="download-art-icon" set:html={iconHtml('android')}></span>
               <span class="download-art-file">{apkName}</span>
             </div>
           </article>
@@ -145,7 +168,7 @@ const copyIcon =
               {
                 recommendChips.map((chip) => (
                   <button type="button" class="download-chip" data-recommend={chip.id} aria-pressed="false">
-                    <span class="download-chip-icon" set:html={icons[chip.icon]}></span>
+                    <span class="download-chip-icon" set:html={iconHtml(chip.icon)}></span>
                     <span data-en={chip.chipEn}>{chip.chipEs}</span>
                   </button>
                 ))
@@ -170,7 +193,7 @@ const copyIcon =
             </div>
             <div class="download-feature-art download-art-linux" aria-hidden="true">
               <div class="download-art-orbit"></div>
-              <span class="download-art-icon" set:html={icons.linux}></span>
+              <span class="download-art-icon" set:html={iconHtml('linux')}></span>
               <span class="download-art-file">x86_64 · amd64</span>
             </div>
           </article>
@@ -186,7 +209,7 @@ const copyIcon =
               linuxCards.map((card) => (
                 <article class="download-card" data-download-card={card.id}>
                   <div class="download-card-head">
-                    <span class="download-card-icon" set:html={icons[card.icon]} />
+                    <span class="download-card-icon" set:html={iconHtml(card.icon)} />
                     <span class="download-card-recommended" data-recommended-badge data-es="Recomendado" data-en="Recommended">Recomendado</span>
                     {linuxBadges[card.id] && <span class="download-card-badge">{linuxBadges[card.id]}</span>}
                   </div>
@@ -250,7 +273,7 @@ const copyIcon =
             </div>
             <div class="download-feature-art download-art-web" aria-hidden="true">
               <div class="download-art-orbit"></div>
-              <span class="download-art-icon" set:html={icons.web}></span>
+              <span class="download-art-icon" set:html={iconHtml('web')}></span>
               <span class="download-art-file">mis-canciones.web</span>
             </div>
           </article>

@@ -7,6 +7,7 @@ La landing usa el logo real, los colores de la app Flutter, la versión `1.0.0`,
 ## Estructura
 
 ```text
+assets/                       # Logos SVG de plataformas para las descargas
 src/
 ├── components/
 │   ├── Navbar.astro          # Navbar sticky, menú móvil y selector ES/EN
@@ -110,5 +111,6 @@ Después añade el sitio en [Google Search Console](https://search.google.com/se
 - `public/favicon.png` y `public/apple-touch-icon.png`: iconos derivados del logo.
 - `public/og-image.png`: imagen social con el mismo tema que la app.
 - `public/art/*.webp`: carátulas optimizadas desde `assets/charts/` de la app.
+- `assets/*.svg`: logos usados en descargas. `ubuntu.svg` representa también a Debian (`.deb`) y `fedora.svg` a RHEL (`.rpm`); `targz.svg` cubre portable y paquete completo. Se importan como URL desde `src/components/Downloads.astro` para evitar duplicar IDs internos.
 
 Antes de publicar, revisa el dominio en `astro.config.mjs` (o define `SITE_URL`) y cambia los enlaces de `src/data/app.ts` si las URLs definitivas son otras.

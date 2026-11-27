@@ -650,6 +650,7 @@ body {
   place-items: center;
 }
 .download-tab-icon svg { width: 16px; height: 16px; }
+.download-tab-icon img { width: 16px; height: 16px; object-fit: contain; }
 .download-detected {
   margin-left: auto;
   padding-right: 0.4rem;
@@ -698,6 +699,7 @@ body {
   color: var(--color-app-primary-bright);
 }
 .download-chip-icon svg { width: 14px; height: 14px; }
+.download-chip-icon img { width: 14px; height: 14px; object-fit: contain; }
 
 .download-feature {
   position: relative;
@@ -837,11 +839,13 @@ body {
   width: 92px;
   height: 92px;
   border-radius: 26px;
-  background: linear-gradient(150deg, rgba(30, 215, 96, 0.95), #128a3c);
-  box-shadow: 0 22px 55px -18px rgba(30, 215, 96, 0.75);
-  color: #04150a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 22px 55px -18px rgba(30, 215, 96, 0.45);
+  color: var(--color-app-primary-bright);
 }
 .download-art-icon svg { width: 52px; height: 52px; }
+.download-art-icon img { width: 74px; height: 74px; object-fit: contain; }
 .download-art-file {
   position: absolute;
   bottom: 0.9rem;
@@ -913,10 +917,11 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: rgba(30, 215, 96, 0.12);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--color-app-primary-bright);
 }
 .download-card-icon svg { width: 21px; height: 21px; }
+.download-card-icon img { width: 24px; height: 24px; object-fit: contain; }
 .download-card-badge {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
